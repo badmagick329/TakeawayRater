@@ -1,0 +1,25 @@
+# IDE
+.vscode/
+.idea/
+
+# Svelte
+node_modules/
+/public/build/
+.DS_Store
+__tests__/
+
+# Python
+venv/
+__pycache__/
+media/
+staticfiles/
+
+# db
+db_data/
+
+# Config
+.env
+docker-compose*
+Dockerfile
+nginx/
+.dockerignore
