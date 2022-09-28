@@ -86,21 +86,17 @@
         foods: []
     };
 
-    function addFood(food=null) {
-        if (food === null) {
-            order.foods.push({
-                name: "",
-                rating: 1,
-                image: null,
-                imageUrl: "",
-                tagsStr: "",
-                tags: [],
-                comment: "",
-            });
-        }
-        else {
-            order.foods.push(food);
-        }
+    function addFood() {
+        order.foods.push({
+            name: "",
+            rating: 1,
+            image: null,
+            imageUrl: "",
+            tagsStr: "",
+            tags: [],
+            comment: "",
+        });
+
         errors.foods.push("");
         order = {...order};
     }
