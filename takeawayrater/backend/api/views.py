@@ -43,14 +43,12 @@ class CreateOrder(APIView):
     renderer_classes = [JSONRenderer]
 
     def post(self, request, format=None):
-        # print(f"CreateOrder received order data: {request.data.dict()}")
         result = clean_order_data(request.data.dict())
 
         if "errors" in result:
             return Response({"errors": result["errors"]})
 
         data = result["data"]
-        # print(f"Cleaned order data: {data}")
 
         foods = data["foods"]
         foods_list = list()
@@ -61,6 +59,7 @@ class CreateOrder(APIView):
                     "rating": food["rating"],
                     "tags": food["tags"],
                     "image": food["image"],
+                    "image_url": food["image_url"],
                     "comment": food["comment"],
                 }
             )
@@ -71,8 +70,53 @@ class CreateOrder(APIView):
                 url=data["url"],
                 foods=foods_list,
             )
+            print(f"{order} created")
         except ValidationError as e:
-            # print("Validation error during create_order")
+            return Response({"errors": {"restaurant": e}})
+
+        return Response({"success": True})
+
+class EditOrder(APIView):
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    renderer_classes = [JSONRenderer]
+
+    def post(self, request, pk, format=None):
+        saved_order = Order.objects.filter(pk=pk).first()
+        if saved_order is None:
+            return Response({"errors": {"order": "Order does not exist"}})
+        if saved_order.user != request.user:
+            return Response({"errors": {"order": "You cannot edit this order"}})
+
+        result = clean_order_data(request.data.dict())
+        if "errors" in result:
+            return Response({"errors": result["errors"]})
+
+        data = result["data"]
+
+        foods = data["foods"]
+        foods_list = list()
+        for food in foods:
+            foods_list.append(
+                {
+                    "id": food["id"],
+                    "name": food["name"],
+                    "rating": food["rating"],
+                    "tags": food["tags"],
+                    "image": food["image"],
+                    "image_url": food["image_url"],
+                    "comment": food["comment"],
+                }
+            )
+        try:
+            order = Order.edit_order(
+                saved_order,
+                restaurant_name=data["restaurant"],
+                url=data["url"],
+                foods=foods_list,
+            )
+        except ValidationError as e:
             return Response({"errors": {"restaurant": e}})
 
         return Response({"success": True})

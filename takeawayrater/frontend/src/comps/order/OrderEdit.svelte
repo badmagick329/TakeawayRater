@@ -1,30 +1,57 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { title, getCookie } from '../../utils';
     import Rating from './Rating.svelte';
     import Tags from './Tags.svelte';
+    import { getCookie } from '../../utils';
 
     export let showOrderNew;
+    export let initialData = null;
+    export let beingEdited = false;
 
     const dispatch = createEventDispatcher();
 
     function refreshOrders() {
         dispatch('refreshOrders');
     }
+    let order
+    if (initialData) {
+        //console.log(`initialData: ${JSON.stringify(initialData)}`);
+        order = {
+            id: initialData.id,
+            restaurant: initialData.restaurant,
+            url: initialData.url,
+            foods: initialData.foods.map(food => {
+                return {
+                    id: food.id,
+                    name: food.name,
+                    rating: food.rating,
+                    tagsStr: food.tags.join(),
+                    tags: food.tags,
+                    imageUrl: food.imageUrl,
+                    comment: food.comment,
+                }
+            })
+        };
+    } else {
+        order = {
+            restaurant: "",
+            url: "",
+            foods: [],
+        };
+    }
 
-    let order = {
-        restaurant: "",
-        url: "",
-        foods: [],
-    };
-
-    
 
     function toFormData(order, csrfToken, includeImages=false) {
         const formData = new FormData();
         formData.append("restaurant", order.restaurant);
         formData.append("url", order.url);
+        if (order.id) {
+            formData.append("id", order.id);
+        }
         order.foods.forEach((food, i) => {
+            if (food.id) {
+                formData.append(`foods-${i}-id`, food.id);
+            }
             formData.append(`food-${i}-name`, food.name);
             formData.append(`food-${i}-rating`, food.rating);
             formData.append(`food-${i}-tags`, food.tags);
@@ -32,6 +59,8 @@
 
             if (includeImages && food.image) {
                 formData.append(`food-${i}-image`, food.image);
+            } else if (includeImages && food.imageUrl) {
+                formData.append(`food-${i}-image-url`, food.imageUrl);
             }
         });
         formData.append('csrfmiddlewaretoken', csrfToken);
@@ -57,15 +86,21 @@
         foods: []
     };
 
-    function addFood() {
-        order.foods.push({
-            name: "",
-            rating: 1,
-            image: null,
-            tagsStr: "",
-            tags: [],
-            comment: "",
-        });
+    function addFood(food=null) {
+        if (food === null) {
+            order.foods.push({
+                name: "",
+                rating: 1,
+                image: null,
+                imageUrl: "",
+                tagsStr: "",
+                tags: [],
+                comment: "",
+            });
+        }
+        else {
+            order.foods.push(food);
+        }
         errors.foods.push("");
         order = {...order};
     }
@@ -75,7 +110,7 @@
     }
 
     function removeFood() {
-        if (order.foods.length > 1) {
+        if (order.foods.length > 0) {
             order.foods.pop();
             errors.foods.pop();
             order = {...order};
@@ -88,7 +123,6 @@
         reader.readAsDataURL(order.foods[i].image);
         reader.onload = (e) => {
             previews[i] = e.target.result;
-            
         }
         order = {...order};
     }
@@ -162,8 +196,8 @@
 
     async function submitOrder() {
         const formData = toFormData(order, getCookie('csrftoken'), true);
-        
-        const resp = await fetch('/api/create-order', {
+        const submitUrl = beingEdited ? `/api/edit-order/${initialData.id}` : '/api/create-order';
+        const resp = await fetch(submitUrl, {
             method: 'POST',
             mode: 'same-origin',
             body: formData,
@@ -186,11 +220,13 @@
             document.querySelectorAll('.file-input').forEach(input => {
                 input.value = "";
             });
-            addFood();
             showOrderNew = false;
+            beingEdited = false;
             refreshOrders();
         }
     }
+
+    //$: console.log(`OrderEdit: ${JSON.stringify(order)}`);
 </script>
 <div class="order">
     <div class="input-field">
@@ -231,8 +267,12 @@
             </div>
             <div class="input-field">
                 <input class="file-input" type="file" name={`image-${i}`} accept="image/*" on:input={(e) => readImage(e,i)}/>
+                <input class="link-input" type="text" name={`image-link-${i}`} bind:value={order.foods[i].imageUrl} 
+                placeholder="(Alternative) Image Link"/>
                 {#if previews[i]}
                     <img class="preview-image" src={previews[i]} alt={order.foods[i].name} />
+                {:else if order.foods[i].imageUrl}
+                    <img class="preview-image" src={order.foods[i].imageUrl} alt={order.foods[i].name} />
                 {/if}
             </div>
         {/each}
@@ -240,7 +280,7 @@
 
     <div class="buttons-bar">
         <button on:click={addFood}>More Food</button>
-        {#if order.foods.length > 1}
+        {#if order.foods.length > 0}
             <button on:click={removeFood}>Less Food</button>
         {/if}
         <button on:click={submitOrder}>Submit</button>
@@ -252,6 +292,9 @@
         display: flex;
         flex-direction: column;
         padding: 5px 0.4em;
+        .file-input, .link-input {
+            padding: 5px 0.4em;
+        }
     }
     .error-field {
         color: red;
@@ -275,5 +318,6 @@
         max-width: 80%;
         max-height: 270px;
         align-self: center;
+        margin-top: 1rem;
     }
 </style>

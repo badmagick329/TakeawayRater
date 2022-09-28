@@ -1,19 +1,17 @@
 <script>
+    import { searchFilters, searchQuery } from '../stores.js'
     import { title } from '../utils';
     let searchFiltersOptions = ["tags","foods","restaurants","my orders"];
-    export let searchFilters;
-    export let searchQuery;
-    
 </script>
 <div class="search">
     <div class="search__box">
-        <input type="text" placeholder="Search" bind:value={searchQuery} />
+        <input type="text" placeholder="Search" bind:value={$searchQuery} />
     </div>
     <div class="search__options">
         <div class="filters">
             {#each searchFiltersOptions as searchFilter}
                 <label>
-                    <input type=checkbox bind:group={searchFilters} name="searchFilters" value={searchFilter}  />
+                    <input type=checkbox bind:group={$searchFilters} name="searchFilters" value={searchFilter}  />
                     <span>{title(searchFilter)}</span>
                 </label>
             {/each}

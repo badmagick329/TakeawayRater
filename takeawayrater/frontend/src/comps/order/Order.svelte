@@ -2,8 +2,13 @@
     import { createEventDispatcher } from 'svelte';
     import Food from './Food.svelte';
     import Tags from './Tags.svelte';
+    import OrderEdit from './OrderEdit.svelte';
     import { title, getCookie } from '../../utils';
+    import { missingImage } from '../../const';
+
+    
     export let order;
+    let beingEdited = false;
 
     const dispatch = createEventDispatcher();
 
@@ -25,36 +30,63 @@
         }
     }
 
+    function createInitialData() {
+        return {
+            id: order.id,
+            restaurant: order.restaurant,
+            url: order.url,
+            foods: order.foods.map(food => {
+                return {
+                    id: food.id,
+                    name: food.name,
+                    rating: food.rating,
+                    tags: food.tags,
+                    imageUrl: food.image === missingImage ? (food.image_url ? food.image_url : "") : food.image,
+                    comment: food.comment,
+                }
+            })
+        }
+    }
+
+    //$: console.log(`Order is ${JSON.stringify(order)}`);
+
 </script>
-<div class="order">
-    {#if order}
-        <div class="order__header">
-            <div class="left">
-                <span><a href={order.url} target="_blank">{title(order.restaurant)}</a></span>
-                <span class="text-size--small">
-                    {#if order.ordered_by}
-                        <strong>{order.ordered_by}</strong> ordered on {order.order_date}
-                    {:else}
-                        Ordered on {order.order_date}
+{#if order}
+    {#if beingEdited}
+        <OrderEdit showOrderNew={false} initialData={createInitialData()} bind:beingEdited={beingEdited}
+        on:refreshOrders={refreshOrders} />
+    {:else}
+        <div class="order">
+            <div class="order__header">
+                <div class="left">
+                    <span><a href={order.url} target="_blank">{title(order.restaurant)}</a></span>
+                    <span class="text-size--small">
+                        {#if order.ordered_by}
+                            <strong>{order.ordered_by}</strong> ordered on {order.order_date}
+                        {:else}
+                            Ordered on {order.order_date}
+                        {/if}
+                    </span>
+                </div>
+                <div class="right">
+                    {#if order.ordered_by === undefined || order.ordered_by === "You"}
+                        <button on:click={() => deleteOrder(order.id)}>Delete</button>
+                        <button on:click={() => beingEdited = true}>Edit</button>
                     {/if}
-                </span>
+                </div>
             </div>
-            <div class="right">
-                {#if order.ordered_by === undefined || order.ordered_by === "You"}
-                    <button on:click={() => deleteOrder(order.id)}>Delete</button>
-                {/if}
+            <div class="order__tags">
+                <Tags tags={order.tags} />
             </div>
-        </div>
-        <div class="order__tags">
-            <Tags tags={order.tags} />
-        </div>
-        <div class="order__body">
-            {#each order.foods as food}
-                <Food food={food} />
-            {/each}
+            <div class="order__body">
+                {#each order.foods as food}
+                    <Food food={food} />
+                {/each}
+            </div>
         </div>
     {/if}
-</div>
+{/if}
+
 <style lang="scss">
     .order > div {
         padding: 5px 0.4em;

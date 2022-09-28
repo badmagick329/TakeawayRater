@@ -11,8 +11,9 @@ from typing import List
 from django.core.files.storage import default_storage
 
 
-# TODO - Only show images from other users if they are linked
-
+"""
+TODO order can have 0 foods
+"""
 
 @receiver(pre_save)
 def pre_save_handler(sender, instance, *args, **kwargs):
@@ -129,7 +130,7 @@ class Restaurant(models.Model):
         unique=True,
     )
 
-    url = models.URLField(max_length=300, unique=True)
+    url = models.URLField(max_length=300, blank=True, null=True)
     # This field can have additional tags added to it when a new order
     # is created. This is done by the m2m_changed signal handler below.
     tags = models.ManyToManyField(Tag, blank=True, related_name="restaurants")
@@ -144,20 +145,13 @@ class Restaurant(models.Model):
             return
         base_url = base_url[:-1] if base_url.endswith("/") else base_url
         restaurants = Restaurant.objects.filter(url__startswith=base_url).exclude(
-            name=self.name
+            pk=self.id
         )
 
         if restaurants:
             raise ValidationError(
                 f"{restaurants[0].name.title()} is using the url provided"
             )
-
-    @staticmethod
-    def base_url(url):
-        """Remove any query parameters from the url"""
-        u = url.strip().split("?")[0]
-        u = u[:-1] if u.endswith("/") else u
-        return u
 
     def __str__(self):
         return f"<Restaurant name={self.name}, url={self.url}>"
@@ -170,6 +164,11 @@ class Food(models.Model):
     )
     tags = models.ManyToManyField(Tag, blank=True, related_name="foods")
     image = models.ImageField(upload_to="food_images", blank=True, null=True)
+    # TODO Add validation for this field
+    image_url = models.URLField(max_length=300, blank=True, null=True)
+
+    MISSING_URL = "https://upload.wikimedia.org/wikipedia/commons/e/e4/Comic_image_missing.svg"
+    FOOD_IMAGES_PATH = "/media/food_images/"
 
     class Meta:
         constraints = [
@@ -189,7 +188,8 @@ class Food(models.Model):
             "tags": [tag.name for tag in self.tags.all()],
             "image": self.image.url
             if self.image
-            else "https://upload.wikimedia.org/wikipedia/commons/e/e4/Comic_image_missing.svg",
+            else Food.MISSING_URL,
+            "image_url": self.image_url,
             "comment": user_rating.comment if user_rating else "",
         }
 
@@ -271,6 +271,82 @@ class Order(models.Model):
         return True
 
     @staticmethod
+    def edit_order(
+            order,
+            restaurant_name: str,
+            foods: List[dict],
+            url: str = None,
+            restaurant_tags: List[str] = None,
+    ):
+        """
+        Convenience method for editing an order. Similar to create_order.
+
+        Keys in the food dict:
+
+        - name: Name of the food (Required)
+        - rating: Rating for the food (Required)
+        - image: Image for the food (Optional)
+        - image_url: URL to the image of the food (Optional)
+        - tags: List of tags for the food (optional)
+        - comment: Comment for the food (optional)
+
+        :param restaurant_name: Name of the restaurant
+        :param foods: List of food dicts (Must have at least one dict)
+        :param user: User object
+        :param url: URL of the restaurant (Optional)
+        """
+
+        if order.restaurant.name != restaurant_name:
+            order.restaurant.name = restaurant_name
+            order.restaurant.save()
+        if order.restaurant.url != url:
+            order.restaurant.url = url
+            order.restaurant.save()
+
+        food_objs = []
+        for food in foods:
+            food_name = food["name"]
+            if food["id"]:
+                food_obj = Food.objects.filter(id=food["id"]).first()
+                if food_obj:
+                    if food_obj.name != food["name"]:
+                        food_obj.name = food["name"]
+                        food_obj.save()
+                else:
+                    food_obj, _ = Food.objects.get_or_create(
+                        name=food_name, restaurant=order.restaurant
+                    )
+            else:
+                food_obj, _ = Food.objects.get_or_create(
+                    name=food_name, restaurant=order.restaurant
+                )
+
+            food_rating = food["rating"]
+            food_comment = food.get("comment")
+            food_tags = food.get("tags", [])
+            food_image = food.get("image")
+            food_image_url = food.get("image_url") if not food.get("image_url").startswith(Food.FOOD_IMAGES_PATH) else None
+
+            if food_image:
+                food_obj.image = food_image
+            elif food_image_url:
+                food_obj.image_url = food_image_url
+            food_obj.save()
+
+            for tag_name in food_tags:
+                tag, _ = Tag.objects.get_or_create(name=tag_name)
+                food_obj.tags.add(tag)
+            rating, _ = Rating.objects.get_or_create(
+                user=order.user, food=food_obj, defaults={"rating": food_rating}
+            )
+            rating.rating = food_rating
+            rating.comment = food_comment
+            rating.save()
+            food_objs.append(food_obj)
+        order.foods.set(food_objs)
+        order.save()
+
+    @staticmethod
     def create_order(
         restaurant_name: str,
         foods: List[dict],
@@ -287,6 +363,7 @@ class Order(models.Model):
         - name: Name of the food (Required)
         - rating: Rating for the food (Required)
         - image: Image for the food (Optional)
+        - image_url: URL to the image of the food (Optional)
         - tags: List of tags for the food (optional)
         - comment: Comment for the food (optional)
 
@@ -296,9 +373,8 @@ class Order(models.Model):
         :param url: URL of the restaurant (Optional)
         :param restaurant_tags: List of tags to explicitly add to the restaurant (Optional)
         """
-        restaurant = Restaurant.objects.filter(name=restaurant_name)
+        restaurant = Restaurant.objects.filter(name=restaurant_name).first()
         if restaurant:
-            restaurant = restaurant[0]
             restaurant.url = url if url else restaurant.url
         else:
             restaurant = Restaurant.objects.create(name=restaurant_name, url=url)
@@ -307,7 +383,7 @@ class Order(models.Model):
             for tag in restaurant_tags:
                 restaurant.tags.add(Tag.objects.get_or_create(name=tag)[0])
 
-        order = None
+        order = None if foods else Order.objects.create(user=user, _restaurant=restaurant)
 
         for food in foods:
             food_obj, created = Food.objects.get_or_create(
@@ -316,8 +392,12 @@ class Order(models.Model):
 
             for tag in food.get("tags", []):
                 food_obj.tags.add(Tag.objects.get_or_create(name=tag)[0])
-            if food.get("image") and not food_obj.image:
+            if food.get("image"):
                 food_obj.image = food["image"]
+                food_obj.save()
+            # if food.get("image_url") and food.get("image_url") != Food.MISSING_URL:
+            if food.get("image_url"):
+                food_obj.image_url = food.get("image_url") if not food.get("image_url").startswith(Food.FOOD_IMAGES_PATH) else None
                 food_obj.save()
 
             rating = Rating.objects.filter(user=user, food=food_obj)
@@ -339,6 +419,7 @@ class Order(models.Model):
             if order is None:
                 order = Order.objects.create(user=user)
             order.foods.add(food_obj)
+
         return order
 
     def __str__(self):
@@ -349,12 +430,14 @@ class Order(models.Model):
             s += f", tags={self.tags}"
         return s
 
+# TODO - Add a change signal to this
 
 @receiver(m2m_changed, sender=Order.foods.through)
 def m2m_changed_order_handler(sender, instance, action, model, pk_set, *args, **kwargs):
     """
     Ensure restaurant is set when foods are added and that the restaurant
-    is the same for all foods
+    is the same for all foods. Also, ensure that the restaurant has updated
+    tags.
     """
     if model != Food:
         return

@@ -2,7 +2,8 @@
     import Tags from './Tags.svelte'
     import Rating from './Rating.svelte';
     import { title } from '../../utils';
-    
+    import { missingImage } from '../../const';
+
     export let food;
 </script>
 <div class="food">
@@ -13,7 +14,11 @@
             <span><Tags tags={food.tags} /></span>
         </div>
         <div class="right">
-            <a href={food.image} target="_blank"><img src={food.image} alt={food.name} width=100/></a>
+            {#if food.image === missingImage && food.image_url}
+                <a href={food.image_url} target="_blank"><img src={food.image_url} alt={food.name} width=100/></a>
+            {:else}
+                <a href={food.image} target="_blank"><img src={food.image} alt={food.name} width=100/></a>
+            {/if}
         </div>
     </div>
     {#if food.comment}

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from backend.api.views import OrdersList, validate_data, CreateOrder, delete_order
+from backend.api.views import OrdersList, validate_data, CreateOrder, EditOrder, delete_order
 from backend.api.views_social import (
     links_list,
     link_requests_list,
@@ -14,6 +14,7 @@ from backend.api.views_social import (
 urlpatterns = [
     path("orders-list", OrdersList.as_view()),
     path("create-order", CreateOrder.as_view()),
+    path("edit-order/<int:pk>", EditOrder.as_view()),
     path("delete-order/<int:pk>", delete_order),
     path("validate", validate_data),
     path("links-list", links_list),
