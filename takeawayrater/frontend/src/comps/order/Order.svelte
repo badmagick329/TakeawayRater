@@ -59,7 +59,11 @@
         <div class="order">
             <div class="order__header">
                 <div class="left">
-                    <span><a href={order.url} target="_blank">{title(order.restaurant)}</a></span>
+                    {#if order.url}
+                        <span><a href={order.url} target="_blank">{title(order.restaurant)}</a></span>
+                    {:else}
+                        <span style="font-weight:600;">{title(order.restaurant)}</span>
+                    {/if}
                     <span class="text-size--small">
                         {#if order.ordered_by}
                             <strong>{order.ordered_by}</strong> ordered on {order.order_date}

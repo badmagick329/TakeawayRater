@@ -11,9 +11,7 @@ from typing import List
 from django.core.files.storage import default_storage
 
 
-"""
-TODO order can have 0 foods
-"""
+# TODO - Should the restaurant always change name on edit or just create a new one?
 
 @receiver(pre_save)
 def pre_save_handler(sender, instance, *args, **kwargs):

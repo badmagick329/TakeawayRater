@@ -4600,30 +4600,33 @@ var app = (function () {
     	let div5;
     	let div2;
     	let div0;
-    	let span0;
-    	let a;
-    	let t0_value = title(/*order*/ ctx[0].restaurant) + "";
     	let t0;
-    	let a_href_value;
+    	let span;
     	let t1;
-    	let span1;
-    	let t2;
     	let div1;
-    	let t3;
+    	let t2;
     	let div3;
     	let tags;
-    	let t4;
+    	let t3;
     	let div4;
     	let current;
 
     	function select_block_type_1(ctx, dirty) {
-    		if (/*order*/ ctx[0].ordered_by) return create_if_block_3$1;
-    		return create_else_block_1$1;
+    		if (/*order*/ ctx[0].url) return create_if_block_4;
+    		return create_else_block_2$1;
     	}
 
     	let current_block_type = select_block_type_1(ctx);
     	let if_block0 = current_block_type(ctx);
-    	let if_block1 = (/*order*/ ctx[0].ordered_by === undefined || /*order*/ ctx[0].ordered_by === "You") && create_if_block_2$2(ctx);
+
+    	function select_block_type_2(ctx, dirty) {
+    		if (/*order*/ ctx[0].ordered_by) return create_if_block_3$1;
+    		return create_else_block_1$1;
+    	}
+
+    	let current_block_type_1 = select_block_type_2(ctx);
+    	let if_block1 = current_block_type_1(ctx);
+    	let if_block2 = (/*order*/ ctx[0].ordered_by === undefined || /*order*/ ctx[0].ordered_by === "You") && create_if_block_2$2(ctx);
 
     	tags = new Tags({
     			props: { tags: /*order*/ ctx[0].tags },
@@ -4647,43 +4650,35 @@ var app = (function () {
     			div5 = element("div");
     			div2 = element("div");
     			div0 = element("div");
-    			span0 = element("span");
-    			a = element("a");
-    			t0 = text(t0_value);
-    			t1 = space();
-    			span1 = element("span");
     			if_block0.c();
-    			t2 = space();
+    			t0 = space();
+    			span = element("span");
+    			if_block1.c();
+    			t1 = space();
     			div1 = element("div");
-    			if (if_block1) if_block1.c();
-    			t3 = space();
+    			if (if_block2) if_block2.c();
+    			t2 = space();
     			div3 = element("div");
     			create_component(tags.$$.fragment);
-    			t4 = space();
+    			t3 = space();
     			div4 = element("div");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(a, "href", a_href_value = /*order*/ ctx[0].url);
-    			attr_dev(a, "target", "_blank");
-    			attr_dev(a, "class", "svelte-1l12jbk");
-    			add_location(a, file$5, 61, 26, 1871);
-    			attr_dev(span0, "class", "svelte-1l12jbk");
-    			add_location(span0, file$5, 61, 20, 1865);
-    			attr_dev(span1, "class", "text-size--small svelte-1l12jbk");
-    			add_location(span1, file$5, 62, 20, 1965);
+    			attr_dev(span, "class", "text-size--small svelte-1l12jbk");
+    			add_location(span, file$5, 66, 20, 2151);
     			attr_dev(div0, "class", "left svelte-1l12jbk");
     			add_location(div0, file$5, 60, 16, 1825);
     			attr_dev(div1, "class", "right");
-    			add_location(div1, file$5, 70, 16, 2333);
+    			add_location(div1, file$5, 74, 16, 2519);
     			attr_dev(div2, "class", "order__header svelte-1l12jbk");
     			add_location(div2, file$5, 59, 12, 1780);
     			attr_dev(div3, "class", "order__tags svelte-1l12jbk");
-    			add_location(div3, file$5, 77, 12, 2696);
+    			add_location(div3, file$5, 81, 12, 2882);
     			attr_dev(div4, "class", "order__body svelte-1l12jbk");
-    			add_location(div4, file$5, 80, 12, 2799);
+    			add_location(div4, file$5, 84, 12, 2985);
     			attr_dev(div5, "class", "order svelte-1l12jbk");
     			add_location(div5, file$5, 58, 8, 1747);
     		},
@@ -4691,19 +4686,17 @@ var app = (function () {
     			insert_dev(target, div5, anchor);
     			append_dev(div5, div2);
     			append_dev(div2, div0);
-    			append_dev(div0, span0);
-    			append_dev(span0, a);
-    			append_dev(a, t0);
-    			append_dev(div0, t1);
-    			append_dev(div0, span1);
-    			if_block0.m(span1, null);
-    			append_dev(div2, t2);
+    			if_block0.m(div0, null);
+    			append_dev(div0, t0);
+    			append_dev(div0, span);
+    			if_block1.m(span, null);
+    			append_dev(div2, t1);
     			append_dev(div2, div1);
-    			if (if_block1) if_block1.m(div1, null);
-    			append_dev(div5, t3);
+    			if (if_block2) if_block2.m(div1, null);
+    			append_dev(div5, t2);
     			append_dev(div5, div3);
     			mount_component(tags, div3, null);
-    			append_dev(div5, t4);
+    			append_dev(div5, t3);
     			append_dev(div5, div4);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -4713,12 +4706,6 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if ((!current || dirty & /*order*/ 1) && t0_value !== (t0_value = title(/*order*/ ctx[0].restaurant) + "")) set_data_dev(t0, t0_value);
-
-    			if (!current || dirty & /*order*/ 1 && a_href_value !== (a_href_value = /*order*/ ctx[0].url)) {
-    				attr_dev(a, "href", a_href_value);
-    			}
-
     			if (current_block_type === (current_block_type = select_block_type_1(ctx)) && if_block0) {
     				if_block0.p(ctx, dirty);
     			} else {
@@ -4727,21 +4714,33 @@ var app = (function () {
 
     				if (if_block0) {
     					if_block0.c();
-    					if_block0.m(span1, null);
+    					if_block0.m(div0, t0);
+    				}
+    			}
+
+    			if (current_block_type_1 === (current_block_type_1 = select_block_type_2(ctx)) && if_block1) {
+    				if_block1.p(ctx, dirty);
+    			} else {
+    				if_block1.d(1);
+    				if_block1 = current_block_type_1(ctx);
+
+    				if (if_block1) {
+    					if_block1.c();
+    					if_block1.m(span, null);
     				}
     			}
 
     			if (/*order*/ ctx[0].ordered_by === undefined || /*order*/ ctx[0].ordered_by === "You") {
-    				if (if_block1) {
-    					if_block1.p(ctx, dirty);
+    				if (if_block2) {
+    					if_block2.p(ctx, dirty);
     				} else {
-    					if_block1 = create_if_block_2$2(ctx);
-    					if_block1.c();
-    					if_block1.m(div1, null);
+    					if_block2 = create_if_block_2$2(ctx);
+    					if_block2.c();
+    					if_block2.m(div1, null);
     				}
-    			} else if (if_block1) {
-    				if_block1.d(1);
-    				if_block1 = null;
+    			} else if (if_block2) {
+    				if_block2.d(1);
+    				if_block2 = null;
     			}
 
     			const tags_changes = {};
@@ -4799,7 +4798,8 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div5);
     			if_block0.d();
-    			if (if_block1) if_block1.d();
+    			if_block1.d();
+    			if (if_block2) if_block2.d();
     			destroy_component(tags);
     			destroy_each(each_blocks, detaching);
     		}
@@ -4883,7 +4883,92 @@ var app = (function () {
     	return block;
     }
 
-    // (66:24) {:else}
+    // (64:20) {:else}
+    function create_else_block_2$1(ctx) {
+    	let span;
+    	let t_value = title(/*order*/ ctx[0].restaurant) + "";
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			span = element("span");
+    			t = text(t_value);
+    			set_style(span, "font-weight", "600");
+    			attr_dev(span, "class", "svelte-1l12jbk");
+    			add_location(span, file$5, 64, 24, 2039);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, span, anchor);
+    			append_dev(span, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*order*/ 1 && t_value !== (t_value = title(/*order*/ ctx[0].restaurant) + "")) set_data_dev(t, t_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(span);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block_2$1.name,
+    		type: "else",
+    		source: "(64:20) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (62:20) {#if order.url}
+    function create_if_block_4(ctx) {
+    	let span;
+    	let a;
+    	let t_value = title(/*order*/ ctx[0].restaurant) + "";
+    	let t;
+    	let a_href_value;
+
+    	const block = {
+    		c: function create() {
+    			span = element("span");
+    			a = element("a");
+    			t = text(t_value);
+    			attr_dev(a, "href", a_href_value = /*order*/ ctx[0].url);
+    			attr_dev(a, "target", "_blank");
+    			attr_dev(a, "class", "svelte-1l12jbk");
+    			add_location(a, file$5, 62, 30, 1912);
+    			attr_dev(span, "class", "svelte-1l12jbk");
+    			add_location(span, file$5, 62, 24, 1906);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, span, anchor);
+    			append_dev(span, a);
+    			append_dev(a, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*order*/ 1 && t_value !== (t_value = title(/*order*/ ctx[0].restaurant) + "")) set_data_dev(t, t_value);
+
+    			if (dirty & /*order*/ 1 && a_href_value !== (a_href_value = /*order*/ ctx[0].url)) {
+    				attr_dev(a, "href", a_href_value);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(span);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_4.name,
+    		type: "if",
+    		source: "(62:20) {#if order.url}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (70:24) {:else}
     function create_else_block_1$1(ctx) {
     	let t0;
     	let t1_value = /*order*/ ctx[0].order_date + "";
@@ -4911,14 +4996,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1$1.name,
     		type: "else",
-    		source: "(66:24) {:else}",
+    		source: "(70:24) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (64:24) {#if order.ordered_by}
+    // (68:24) {#if order.ordered_by}
     function create_if_block_3$1(ctx) {
     	let strong;
     	let t0_value = /*order*/ ctx[0].ordered_by + "";
@@ -4933,7 +5018,7 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = text(" ordered on ");
     			t2 = text(t2_value);
-    			add_location(strong, file$5, 64, 28, 2074);
+    			add_location(strong, file$5, 68, 28, 2260);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, strong, anchor);
@@ -4956,14 +5041,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3$1.name,
     		type: "if",
-    		source: "(64:24) {#if order.ordered_by}",
+    		source: "(68:24) {#if order.ordered_by}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (72:20) {#if order.ordered_by === undefined || order.ordered_by === "You"}
+    // (76:20) {#if order.ordered_by === undefined || order.ordered_by === "You"}
     function create_if_block_2$2(ctx) {
     	let button0;
     	let t1;
@@ -4978,8 +5063,8 @@ var app = (function () {
     			t1 = space();
     			button1 = element("button");
     			button1.textContent = "Edit";
-    			add_location(button0, file$5, 72, 24, 2466);
-    			add_location(button1, file$5, 73, 24, 2554);
+    			add_location(button0, file$5, 76, 24, 2652);
+    			add_location(button1, file$5, 77, 24, 2740);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button0, anchor);
@@ -5009,14 +5094,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$2.name,
     		type: "if",
-    		source: "(72:20) {#if order.ordered_by === undefined || order.ordered_by === \\\"You\\\"}",
+    		source: "(76:20) {#if order.ordered_by === undefined || order.ordered_by === \\\"You\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (82:16) {#each order.foods as food}
+    // (86:16) {#each order.foods as food}
     function create_each_block$3(ctx) {
     	let food;
     	let current;
@@ -5057,7 +5142,7 @@ var app = (function () {
     		block,
     		id: create_each_block$3.name,
     		type: "each",
-    		source: "(82:16) {#each order.foods as food}",
+    		source: "(86:16) {#each order.foods as food}",
     		ctx
     	});
 
