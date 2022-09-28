@@ -71,6 +71,7 @@
 
     $: {
         order.foods.forEach(food => {
+            console.log(`food: ${JSON.stringify(food)}`);
             food.tags = [];
             food.tagsStr.split(",").forEach(tag => {
                 if (tag.trim() != "") {
