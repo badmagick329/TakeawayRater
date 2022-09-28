@@ -325,7 +325,10 @@ class Order(models.Model):
             food_comment = food.get("comment")
             food_tags = food.get("tags", [])
             food_image = food.get("image")
-            food_image_url = food.get("image_url") if not food.get("image_url").startswith(Food.FOOD_IMAGES_PATH) else None
+            if food.get("image_url") and not food.get("image_url").startswith(Food.FOOD_IMAGES_PATH):
+                food_image_url = food.get("image_url")
+            else:
+                food_image_url = None
 
             if food_image:
                 food_obj.image = food_image
@@ -394,11 +397,9 @@ class Order(models.Model):
                 food_obj.tags.add(Tag.objects.get_or_create(name=tag)[0])
             if food.get("image"):
                 food_obj.image = food["image"]
-                food_obj.save()
-            # if food.get("image_url") and food.get("image_url") != Food.MISSING_URL:
-            if food.get("image_url"):
-                food_obj.image_url = food.get("image_url") if not food.get("image_url").startswith(Food.FOOD_IMAGES_PATH) else None
-                food_obj.save()
+            elif food.get("image_url") and not food.get("image_url").startswith(Food.FOOD_IMAGES_PATH):
+                food_obj.image_url = food.get("image_url")
+            food_obj.save()
 
             rating = Rating.objects.filter(user=user, food=food_obj)
 
