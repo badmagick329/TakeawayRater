@@ -143,7 +143,7 @@ class Restaurant(models.Model):
             return
         base_url = base_url[:-1] if base_url.endswith("/") else base_url
         restaurants = Restaurant.objects.filter(url__startswith=base_url).exclude(
-            pk=self.id
+            name=self.name
         )
 
         if restaurants:
