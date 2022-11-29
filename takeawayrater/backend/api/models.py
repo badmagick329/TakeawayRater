@@ -1,17 +1,27 @@
+from datetime import datetime
+from typing import List
+
 from django.contrib.auth.models import AbstractUser
-from django.db.models.signals import m2m_changed, pre_save, post_save, pre_delete
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.core.validators import ValidationError
+from django.core.files.storage import default_storage
+from django.core.validators import (
+    MaxValueValidator,
+    MinValueValidator,
+    ValidationError,
+)
 from django.db import models
 from django.db.models import Avg
+from django.db.models.signals import (
+    m2m_changed,
+    post_save,
+    pre_delete,
+    pre_save,
+)
 from django.dispatch import receiver
-from datetime import datetime
-from .fields import CaseInsensitiveCharField
-from typing import List
-from django.core.files.storage import default_storage
 
+from .fields import CaseInsensitiveCharField
 
 # TODO - Should the restaurant always change name on edit or just create a new one?
+
 
 @receiver(pre_save)
 def pre_save_handler(sender, instance, *args, **kwargs):
@@ -95,11 +105,15 @@ class User(AbstractUser):
 
     def sent_requests(self):
         """Return a queryset of users that this user has sent a link request to"""
-        return User.objects.filter(link_requests__from_user=self).exclude(pk=self.pk)
+        return User.objects.filter(link_requests__from_user=self).exclude(
+            pk=self.pk
+        )
 
     def received_requests(self):
         """Return a queryset of users that have sent a link request to this user"""
-        return User.objects.filter(link_requests__to_user=self).exclude(pk=self.pk)
+        return User.objects.filter(link_requests__to_user=self).exclude(
+            pk=self.pk
+        )
 
     def serialize(self):
         return {"id": self.id, "username": self.username}
@@ -142,9 +156,9 @@ class Restaurant(models.Model):
         if base_url == "":
             return
         base_url = base_url[:-1] if base_url.endswith("/") else base_url
-        restaurants = Restaurant.objects.filter(url__startswith=base_url).exclude(
-            name=self.name
-        )
+        restaurants = Restaurant.objects.filter(
+            url__startswith=base_url
+        ).exclude(name=self.name)
 
         if restaurants:
             raise ValidationError(
@@ -184,17 +198,19 @@ class Food(models.Model):
             "name": self.name,
             "rating": user_rating.rating if user_rating else None,
             "tags": [tag.name for tag in self.tags.all()],
-            "image": self.image.url
-            if self.image
-            else Food.MISSING_URL,
+            "image": self.image.url if self.image else Food.MISSING_URL,
             "image_url": self.image_url,
             "comment": user_rating.comment if user_rating else "",
         }
 
 
 class Rating(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ratings")
-    food = models.ForeignKey(Food, on_delete=models.CASCADE, related_name="ratings")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="ratings"
+    )
+    food = models.ForeignKey(
+        Food, on_delete=models.CASCADE, related_name="ratings"
+    )
     rating = models.IntegerField(
         validators=[MaxValueValidator(5), MinValueValidator(1)]
     )
@@ -210,7 +226,9 @@ class Rating(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="orders"
+    )
     foods = models.ManyToManyField(Food, related_name="orders")
     created = models.DateTimeField(auto_now_add=True)
 
@@ -242,7 +260,9 @@ class Order(models.Model):
             "tags": list(self.tags.values_list("name", flat=True)),
         }
         if include_ordered_by:
-            ret["ordered_by"] = "You" if user == self.user else self.user.username
+            ret["ordered_by"] = (
+                "You" if user == self.user else self.user.username
+            )
         return ret
 
     @property
@@ -270,11 +290,11 @@ class Order(models.Model):
 
     @staticmethod
     def edit_order(
-            order,
-            restaurant_name: str,
-            foods: List[dict],
-            url: str = None,
-            restaurant_tags: List[str] = None,
+        order,
+        restaurant_name: str,
+        foods: List[dict],
+        url: str = None,
+        restaurant_tags: List[str] = None,
     ):
         """
         Convenience method for editing an order. Similar to create_order.
@@ -323,7 +343,9 @@ class Order(models.Model):
             food_comment = food.get("comment")
             food_tags = food.get("tags", [])
             food_image = food.get("image")
-            if food.get("image_url") and not food.get("image_url").startswith(Food.FOOD_IMAGES_PATH):
+            if food.get("image_url") and not food.get("image_url").startswith(
+                Food.FOOD_IMAGES_PATH
+            ):
                 food_image_url = food.get("image_url")
             else:
                 food_image_url = None
@@ -338,7 +360,9 @@ class Order(models.Model):
                 tag, _ = Tag.objects.get_or_create(name=tag_name)
                 food_obj.tags.add(tag)
             rating, _ = Rating.objects.get_or_create(
-                user=order.user, food=food_obj, defaults={"rating": food_rating}
+                user=order.user,
+                food=food_obj,
+                defaults={"rating": food_rating},
             )
             rating.rating = food_rating
             rating.comment = food_comment
@@ -378,13 +402,19 @@ class Order(models.Model):
         if restaurant:
             restaurant.url = url if url else restaurant.url
         else:
-            restaurant = Restaurant.objects.create(name=restaurant_name, url=url)
+            restaurant = Restaurant.objects.create(
+                name=restaurant_name, url=url
+            )
 
         if restaurant_tags:
             for tag in restaurant_tags:
                 restaurant.tags.add(Tag.objects.get_or_create(name=tag)[0])
 
-        order = None if foods else Order.objects.create(user=user, _restaurant=restaurant)
+        order = (
+            None
+            if foods
+            else Order.objects.create(user=user, _restaurant=restaurant)
+        )
 
         for food in foods:
             food_obj, created = Food.objects.get_or_create(
@@ -395,7 +425,9 @@ class Order(models.Model):
                 food_obj.tags.add(Tag.objects.get_or_create(name=tag)[0])
             if food.get("image"):
                 food_obj.image = food["image"]
-            elif food.get("image_url") and not food.get("image_url").startswith(Food.FOOD_IMAGES_PATH):
+            elif food.get("image_url") and not food.get(
+                "image_url"
+            ).startswith(Food.FOOD_IMAGES_PATH):
                 food_obj.image_url = food.get("image_url")
             food_obj.save()
 
@@ -429,10 +461,14 @@ class Order(models.Model):
             s += f", tags={self.tags}"
         return s
 
+
 # TODO - Add a change signal to this
 
+
 @receiver(m2m_changed, sender=Order.foods.through)
-def m2m_changed_order_handler(sender, instance, action, model, pk_set, *args, **kwargs):
+def m2m_changed_order_handler(
+    sender, instance, action, model, pk_set, *args, **kwargs
+):
     """
     Ensure restaurant is set when foods are added and that the restaurant
     is the same for all foods. Also, ensure that the restaurant has updated

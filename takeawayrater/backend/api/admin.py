@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import User, LinkRequest, Restaurant, Rating, Food, Tag, Order
+from .models import Food, LinkRequest, Order, Rating, Restaurant, Tag, User
 
 # Register your models here.
 admin.site.register(User)

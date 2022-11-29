@@ -1,5 +1,6 @@
-from .models import Restaurant, Order, Food, Rating, Tag, User
 from django.core.validators import URLValidator, ValidationError
+
+from .models import Food, Order, Rating, Restaurant, Tag, User
 
 
 def validate(data, user):
@@ -99,7 +100,9 @@ def clean_order_data(data, clean_only=False) -> dict:
             "name": food["name"].strip(),
             "rating": food["rating"],
             "image": food["image"],
-            "image_url": food["image_url"].strip() if food["image_url"] else None,
+            "image_url": food["image_url"].strip()
+            if food["image_url"]
+            else None,
             "tags": [t.strip().lower() for t in food["tags"] if t.strip()],
             "comment": food.get("comment", "").strip(),
         }
@@ -118,7 +121,7 @@ def clean_order_data(data, clean_only=False) -> dict:
             errors["restaurant"] = "Restaurant name is required"
 
         errors["foods"] = [None for f in foods]
-        for i,food in enumerate(foods):
+        for i, food in enumerate(foods):
             if food["name"] == "":
                 errors["foods"][i] = "Food name is required"
             elif food["rating"] == 0:
@@ -130,7 +133,9 @@ def clean_order_data(data, clean_only=False) -> dict:
             return {"errors": errors}
 
         # Validate restaurant
-        restaurant = Restaurant.objects.filter(name=clean_data["restaurant"]).first()
+        restaurant = Restaurant.objects.filter(
+            name=clean_data["restaurant"]
+        ).first()
         url = clean_data["url"]
         if restaurant:
             r = restaurant

@@ -1,5 +1,6 @@
-from .mixins import CaseInsensitiveFieldMixin
 from django.db.models import CharField
+
+from .mixins import CaseInsensitiveFieldMixin
 
 
 class CaseInsensitiveCharField(CaseInsensitiveFieldMixin, CharField):

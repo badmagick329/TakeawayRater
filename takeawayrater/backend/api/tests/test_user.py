@@ -1,6 +1,8 @@
-from django.test import TestCase
 from unittest import skip
-from ..models import User, LinkRequest
+
+from django.test import TestCase
+
+from ..models import LinkRequest, User
 
 
 class UserModelTest(TestCase):
@@ -84,4 +86,3 @@ class UserModelTest(TestCase):
         self.user1.send_request_to(self.user2)
         self.assertEqual(self.user1.sent_requests().count(), 1)
         self.assertEqual(self.user2.sent_requests().count(), 0)
-

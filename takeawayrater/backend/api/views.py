@@ -1,19 +1,21 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from datetime import datetime
+
+from django.core.validators import URLValidator, ValidationError
 from rest_framework import authentication, permissions
-from rest_framework.renderers import JSONRenderer
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import (
     api_view,
-    renderer_classes,
-    permission_classes,
     authentication_classes,
+    permission_classes,
+    renderer_classes,
 )
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import SessionAuthentication
-from .models import User, LinkRequest, Restaurant, Tag, Food, Rating, Order
-from datetime import datetime
-from django.core.validators import ValidationError, URLValidator
-from .utils import validate, clean_order_data
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Food, LinkRequest, Order, Rating, Restaurant, Tag, User
+from .utils import clean_order_data, validate
 
 
 class OrdersList(APIView):
@@ -28,7 +30,10 @@ class OrdersList(APIView):
         if len(visible_users) > 0:
             visible_users.append(request.user)
             orders = Order.objects.filter(user__in=visible_users)
-            resp = [o.serialize(request.user, include_ordered_by=True) for o in orders]
+            resp = [
+                o.serialize(request.user, include_ordered_by=True)
+                for o in orders
+            ]
         else:
             orders = Order.objects.filter(user=request.user)
             resp = [o.serialize(request.user) for o in orders]
@@ -76,6 +81,7 @@ class CreateOrder(APIView):
 
         return Response({"success": True})
 
+
 class EditOrder(APIView):
     authentication_classes = [authentication.SessionAuthentication]
     permission_classes = [permissions.IsAuthenticated]
@@ -87,7 +93,9 @@ class EditOrder(APIView):
         if saved_order is None:
             return Response({"errors": {"order": "Order does not exist"}})
         if saved_order.user != request.user:
-            return Response({"errors": {"order": "You cannot edit this order"}})
+            return Response(
+                {"errors": {"order": "You cannot edit this order"}}
+            )
 
         result = clean_order_data(request.data.dict())
         if "errors" in result:

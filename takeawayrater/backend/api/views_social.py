@@ -1,15 +1,16 @@
+from django.core.validators import ValidationError
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import (
     api_view,
-    renderer_classes,
-    permission_classes,
     authentication_classes,
+    permission_classes,
+    renderer_classes,
 )
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import SessionAuthentication
 from rest_framework.renderers import JSONRenderer
-from .models import User, LinkRequest
 from rest_framework.response import Response
-from django.core.validators import ValidationError
+
+from .models import LinkRequest, User
 
 
 @api_view(["GET"])
@@ -97,6 +98,7 @@ def remove_link(request, pk, *args, **kwargs):
     except ValidationError as e:
         return Response({"success": False, "message": [e]})
 
+
 @api_view(["GET"])
 @authentication_classes([SessionAuthentication])
 @permission_classes([IsAuthenticated])
@@ -104,13 +106,20 @@ def remove_link(request, pk, *args, **kwargs):
 def search_users(request, *args, **kwargs):
     q = request.query_params.get("q", "").strip()
     if q == "":
-        return Response({"success": False, "message": "You must provide a search term"})
+        return Response(
+            {"success": False, "message": "You must provide a search term"}
+        )
     linked_users = User.objects.filter(linked_with=request.user)
-    users = User.objects.filter(username__icontains=q).exclude(pk=request.user.pk).exclude(pk__in=linked_users)
+    users = (
+        User.objects.filter(username__icontains=q)
+        .exclude(pk=request.user.pk)
+        .exclude(pk__in=linked_users)
+    )
     if users:
         resp = [u.serialize() for u in users]
         return Response({"success": True, "users": resp})
     return Response({"success": True, "users": []})
+
 
 @api_view(["GET"])
 @authentication_classes([SessionAuthentication])
