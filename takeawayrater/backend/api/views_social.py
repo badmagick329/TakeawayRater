@@ -106,9 +106,7 @@ def remove_link(request, pk, *args, **kwargs):
 def search_users(request, *args, **kwargs):
     q = request.query_params.get("q", "").strip()
     if q == "":
-        return Response(
-            {"success": False, "message": "You must provide a search term"}
-        )
+        return Response({"success": False, "message": "You must provide a search term"})
     linked_users = User.objects.filter(linked_with=request.user)
     users = (
         User.objects.filter(username__icontains=q)

@@ -15,7 +15,6 @@
   }
   let order;
   if (initialData) {
-    //console.log(`initialData: ${JSON.stringify(initialData)}`);
     order = {
       id: initialData.id,
       restaurant: initialData.restaurant,
@@ -70,7 +69,7 @@
 
   $: {
     order.foods.forEach((food) => {
-      console.log(`food: ${JSON.stringify(food)}`);
+      // console.log(`food: ${JSON.stringify(food)}`);
       food.tags = [];
       food.tagsStr.split(",").forEach((tag) => {
         if (tag.trim() != "") {

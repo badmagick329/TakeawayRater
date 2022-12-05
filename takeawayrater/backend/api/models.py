@@ -105,15 +105,11 @@ class User(AbstractUser):
 
     def sent_requests(self):
         """Return a queryset of users that this user has sent a link request to"""
-        return User.objects.filter(link_requests__from_user=self).exclude(
-            pk=self.pk
-        )
+        return User.objects.filter(link_requests__from_user=self).exclude(pk=self.pk)
 
     def received_requests(self):
         """Return a queryset of users that have sent a link request to this user"""
-        return User.objects.filter(link_requests__to_user=self).exclude(
-            pk=self.pk
-        )
+        return User.objects.filter(link_requests__to_user=self).exclude(pk=self.pk)
 
     def serialize(self):
         return {"id": self.id, "username": self.username}
@@ -156,9 +152,9 @@ class Restaurant(models.Model):
         if base_url == "":
             return
         base_url = base_url[:-1] if base_url.endswith("/") else base_url
-        restaurants = Restaurant.objects.filter(
-            url__startswith=base_url
-        ).exclude(name=self.name)
+        restaurants = Restaurant.objects.filter(url__startswith=base_url).exclude(
+            name=self.name
+        )
 
         if restaurants:
             raise ValidationError(
@@ -179,7 +175,9 @@ class Food(models.Model):
     # TODO Add validation for this field
     image_url = models.URLField(max_length=300, blank=True, null=True)
 
-    MISSING_URL = "https://upload.wikimedia.org/wikipedia/commons/e/e4/Comic_image_missing.svg"
+    MISSING_URL = (
+        "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+    )
     FOOD_IMAGES_PATH = "/media/food_images/"
 
     class Meta:
@@ -205,12 +203,8 @@ class Food(models.Model):
 
 
 class Rating(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="ratings"
-    )
-    food = models.ForeignKey(
-        Food, on_delete=models.CASCADE, related_name="ratings"
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ratings")
+    food = models.ForeignKey(Food, on_delete=models.CASCADE, related_name="ratings")
     rating = models.IntegerField(
         validators=[MaxValueValidator(5), MinValueValidator(1)]
     )
@@ -226,9 +220,7 @@ class Rating(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="orders"
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
     foods = models.ManyToManyField(Food, related_name="orders")
     created = models.DateTimeField(auto_now_add=True)
 
@@ -260,9 +252,7 @@ class Order(models.Model):
             "tags": list(self.tags.values_list("name", flat=True)),
         }
         if include_ordered_by:
-            ret["ordered_by"] = (
-                "You" if user == self.user else self.user.username
-            )
+            ret["ordered_by"] = "You" if user == self.user else self.user.username
         return ret
 
     @property
@@ -402,18 +392,14 @@ class Order(models.Model):
         if restaurant:
             restaurant.url = url if url else restaurant.url
         else:
-            restaurant = Restaurant.objects.create(
-                name=restaurant_name, url=url
-            )
+            restaurant = Restaurant.objects.create(name=restaurant_name, url=url)
 
         if restaurant_tags:
             for tag in restaurant_tags:
                 restaurant.tags.add(Tag.objects.get_or_create(name=tag)[0])
 
         order = (
-            None
-            if foods
-            else Order.objects.create(user=user, _restaurant=restaurant)
+            None if foods else Order.objects.create(user=user, _restaurant=restaurant)
         )
 
         for food in foods:
@@ -425,9 +411,9 @@ class Order(models.Model):
                 food_obj.tags.add(Tag.objects.get_or_create(name=tag)[0])
             if food.get("image"):
                 food_obj.image = food["image"]
-            elif food.get("image_url") and not food.get(
-                "image_url"
-            ).startswith(Food.FOOD_IMAGES_PATH):
+            elif food.get("image_url") and not food.get("image_url").startswith(
+                Food.FOOD_IMAGES_PATH
+            ):
                 food_obj.image_url = food.get("image_url")
             food_obj.save()
 
@@ -466,9 +452,7 @@ class Order(models.Model):
 
 
 @receiver(m2m_changed, sender=Order.foods.through)
-def m2m_changed_order_handler(
-    sender, instance, action, model, pk_set, *args, **kwargs
-):
+def m2m_changed_order_handler(sender, instance, action, model, pk_set, *args, **kwargs):
     """
     Ensure restaurant is set when foods are added and that the restaurant
     is the same for all foods. Also, ensure that the restaurant has updated

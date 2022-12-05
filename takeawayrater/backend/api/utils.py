@@ -100,9 +100,7 @@ def clean_order_data(data, clean_only=False) -> dict:
             "name": food["name"].strip(),
             "rating": food["rating"],
             "image": food["image"],
-            "image_url": food["image_url"].strip()
-            if food["image_url"]
-            else None,
+            "image_url": food["image_url"].strip() if food["image_url"] else None,
             "tags": [t.strip().lower() for t in food["tags"] if t.strip()],
             "comment": food.get("comment", "").strip(),
         }
@@ -133,9 +131,7 @@ def clean_order_data(data, clean_only=False) -> dict:
             return {"errors": errors}
 
         # Validate restaurant
-        restaurant = Restaurant.objects.filter(
-            name=clean_data["restaurant"]
-        ).first()
+        restaurant = Restaurant.objects.filter(name=clean_data["restaurant"]).first()
         url = clean_data["url"]
         if restaurant:
             r = restaurant
