@@ -4260,7 +4260,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (59:0) {#if order}
+    // (63:0) {#if order}
     function create_if_block$3(ctx) {
     	let current_block_type_index;
     	let if_block;
@@ -4333,14 +4333,14 @@ var app = (function () {
     		block,
     		id: create_if_block$3.name,
     		type: "if",
-    		source: "(59:0) {#if order}",
+    		source: "(63:0) {#if order}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (68:2) {:else}
+    // (71:2) {:else}
     function create_else_block$2(ctx) {
     	let div5;
     	let div2;
@@ -4413,19 +4413,19 @@ var app = (function () {
     			}
 
     			attr_dev(span, "class", "text-size--small svelte-1l12jbk");
-    			add_location(span, file$6, 79, 10, 2029);
+    			add_location(span, file$6, 82, 10, 2105);
     			attr_dev(div0, "class", "left svelte-1l12jbk");
-    			add_location(div0, file$6, 70, 8, 1721);
+    			add_location(div0, file$6, 73, 8, 1797);
     			attr_dev(div1, "class", "right");
-    			add_location(div1, file$6, 87, 8, 2307);
+    			add_location(div1, file$6, 90, 8, 2383);
     			attr_dev(div2, "class", "order__header svelte-1l12jbk");
-    			add_location(div2, file$6, 69, 6, 1684);
+    			add_location(div2, file$6, 72, 6, 1760);
     			attr_dev(div3, "class", "order__tags svelte-1l12jbk");
-    			add_location(div3, file$6, 94, 6, 2608);
+    			add_location(div3, file$6, 97, 6, 2684);
     			attr_dev(div4, "class", "order__body svelte-1l12jbk");
-    			add_location(div4, file$6, 97, 6, 2691);
+    			add_location(div4, file$6, 100, 6, 2767);
     			attr_dev(div5, "class", "order svelte-1l12jbk");
-    			add_location(div5, file$6, 68, 4, 1657);
+    			add_location(div5, file$6, 71, 4, 1733);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div5, anchor);
@@ -4554,19 +4554,17 @@ var app = (function () {
     		block,
     		id: create_else_block$2.name,
     		type: "else",
-    		source: "(68:2) {:else}",
+    		source: "(71:2) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (60:2) {#if beingEdited}
+    // (64:2) {#if beingEdited}
     function create_if_block_1$2(ctx) {
     	let orderedit;
     	let updating_beingEdited;
-    	let t0;
-    	let h1;
     	let current;
 
     	function orderedit_beingEdited_binding(value) {
@@ -4589,15 +4587,9 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			create_component(orderedit.$$.fragment);
-    			t0 = space();
-    			h1 = element("h1");
-    			h1.textContent = "hi";
-    			add_location(h1, file$6, 66, 4, 1629);
     		},
     		m: function mount(target, anchor) {
     			mount_component(orderedit, target, anchor);
-    			insert_dev(target, t0, anchor);
-    			insert_dev(target, h1, anchor);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
@@ -4622,8 +4614,6 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			destroy_component(orderedit, detaching);
-    			if (detaching) detach_dev(t0);
-    			if (detaching) detach_dev(h1);
     		}
     	};
 
@@ -4631,14 +4621,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$2.name,
     		type: "if",
-    		source: "(60:2) {#if beingEdited}",
+    		source: "(64:2) {#if beingEdited}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (77:10) {:else}
+    // (80:10) {:else}
     function create_else_block_2$1(ctx) {
     	let span;
     	let t_value = title(/*order*/ ctx[0].restaurant) + "";
@@ -4650,7 +4640,7 @@ var app = (function () {
     			t = text(t_value);
     			set_style(span, "font-weight", "600");
     			attr_dev(span, "class", "svelte-1l12jbk");
-    			add_location(span, file$6, 77, 12, 1937);
+    			add_location(span, file$6, 80, 12, 2013);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -4668,14 +4658,14 @@ var app = (function () {
     		block,
     		id: create_else_block_2$1.name,
     		type: "else",
-    		source: "(77:10) {:else}",
+    		source: "(80:10) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (72:10) {#if order.url}
+    // (75:10) {#if order.url}
     function create_if_block_4(ctx) {
     	let span;
     	let a;
@@ -4691,9 +4681,9 @@ var app = (function () {
     			attr_dev(a, "href", a_href_value = /*order*/ ctx[0].url);
     			attr_dev(a, "target", "_blank");
     			attr_dev(a, "class", "svelte-1l12jbk");
-    			add_location(a, file$6, 73, 15, 1802);
+    			add_location(a, file$6, 76, 15, 1878);
     			attr_dev(span, "class", "svelte-1l12jbk");
-    			add_location(span, file$6, 72, 12, 1780);
+    			add_location(span, file$6, 75, 12, 1856);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -4716,14 +4706,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(72:10) {#if order.url}",
+    		source: "(75:10) {#if order.url}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (83:12) {:else}
+    // (86:12) {:else}
     function create_else_block_1$1(ctx) {
     	let t0;
     	let t1_value = /*order*/ ctx[0].order_date + "";
@@ -4751,14 +4741,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1$1.name,
     		type: "else",
-    		source: "(83:12) {:else}",
+    		source: "(86:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (81:12) {#if order.ordered_by}
+    // (84:12) {#if order.ordered_by}
     function create_if_block_3$1(ctx) {
     	let strong;
     	let t0_value = /*order*/ ctx[0].ordered_by + "";
@@ -4773,7 +4763,7 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = text(" ordered on ");
     			t2 = text(t2_value);
-    			add_location(strong, file$6, 81, 14, 2112);
+    			add_location(strong, file$6, 84, 14, 2188);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, strong, anchor);
@@ -4796,14 +4786,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3$1.name,
     		type: "if",
-    		source: "(81:12) {#if order.ordered_by}",
+    		source: "(84:12) {#if order.ordered_by}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (89:10) {#if order.ordered_by === undefined || order.ordered_by === "You"}
+    // (92:10) {#if order.ordered_by === undefined || order.ordered_by === "You"}
     function create_if_block_2$2(ctx) {
     	let button0;
     	let t1;
@@ -4818,8 +4808,8 @@ var app = (function () {
     			t1 = space();
     			button1 = element("button");
     			button1.textContent = "Edit";
-    			add_location(button0, file$6, 89, 12, 2418);
-    			add_location(button1, file$6, 90, 12, 2494);
+    			add_location(button0, file$6, 92, 12, 2494);
+    			add_location(button1, file$6, 93, 12, 2570);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button0, anchor);
@@ -4849,14 +4839,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$2.name,
     		type: "if",
-    		source: "(89:10) {#if order.ordered_by === undefined || order.ordered_by === \\\"You\\\"}",
+    		source: "(92:10) {#if order.ordered_by === undefined || order.ordered_by === \\\"You\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (99:8) {#each order.foods as food}
+    // (102:8) {#each order.foods as food}
     function create_each_block$4(ctx) {
     	let food;
     	let current;
@@ -4897,7 +4887,7 @@ var app = (function () {
     		block,
     		id: create_each_block$4.name,
     		type: "each",
-    		source: "(99:8) {#each order.foods as food}",
+    		source: "(102:8) {#each order.foods as food}",
     		ctx
     	});
 
@@ -5003,9 +4993,17 @@ var app = (function () {
     			restaurant: order.restaurant,
     			url: order.url,
     			foods: order.foods.map(food => {
-    				const foodImage = food.image === missingImage
-    				? food.image_url ? food.image_url : ""
-    				: food.image;
+    				let foodImage;
+
+    				if (food.image === missingImage) {
+    					if (food.image_url) {
+    						foodImage = food.image_url;
+    					} else {
+    						foodImage = "";
+    					}
+    				} else {
+    					foodImage = food.image;
+    				}
 
     				return {
     					id: food.id,
@@ -7249,11 +7247,13 @@ var app = (function () {
     	let t3;
     	let a2;
     	let t5;
+    	let a3;
+    	let t7;
     	let div;
     	let route0;
-    	let t6;
+    	let t8;
     	let route1;
-    	let t7;
+    	let t9;
     	let route2;
     	let current;
 
@@ -7287,25 +7287,31 @@ var app = (function () {
     			a2 = element("a");
     			a2.textContent = "Search Users";
     			t5 = space();
+    			a3 = element("a");
+    			a3.textContent = "Log Out";
+    			t7 = space();
     			div = element("div");
     			create_component(route0.$$.fragment);
-    			t6 = space();
+    			t8 = space();
     			create_component(route1.$$.fragment);
-    			t7 = space();
+    			t9 = space();
     			create_component(route2.$$.fragment);
-    			attr_dev(a0, "class", "nav-link svelte-1oph8ix");
+    			attr_dev(a0, "class", "nav-link svelte-km6l9t");
     			attr_dev(a0, "href", "/");
     			add_location(a0, file, 10, 6, 285);
-    			attr_dev(a1, "class", "nav-link svelte-1oph8ix");
+    			attr_dev(a1, "class", "nav-link svelte-km6l9t");
     			attr_dev(a1, "href", "/links-list");
     			add_location(a1, file, 11, 6, 332);
-    			attr_dev(a2, "class", "nav-link svelte-1oph8ix");
+    			attr_dev(a2, "class", "nav-link svelte-km6l9t");
     			attr_dev(a2, "href", "/search-users");
     			add_location(a2, file, 12, 6, 398);
-    			attr_dev(nav, "class", "svelte-1oph8ix");
+    			attr_dev(a3, "class", "nav-link svelte-km6l9t");
+    			attr_dev(a3, "href", "/logout");
+    			add_location(a3, file, 13, 6, 463);
+    			attr_dev(nav, "class", "svelte-km6l9t");
     			add_location(nav, file, 9, 4, 272);
-    			attr_dev(div, "class", "content svelte-1oph8ix");
-    			add_location(div, file, 14, 4, 473);
+    			attr_dev(div, "class", "content svelte-km6l9t");
+    			add_location(div, file, 15, 4, 527);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, nav, anchor);
@@ -7314,12 +7320,14 @@ var app = (function () {
     			append_dev(nav, a1);
     			append_dev(nav, t3);
     			append_dev(nav, a2);
-    			insert_dev(target, t5, anchor);
+    			append_dev(nav, t5);
+    			append_dev(nav, a3);
+    			insert_dev(target, t7, anchor);
     			insert_dev(target, div, anchor);
     			mount_component(route0, div, null);
-    			append_dev(div, t6);
+    			append_dev(div, t8);
     			mount_component(route1, div, null);
-    			append_dev(div, t7);
+    			append_dev(div, t9);
     			mount_component(route2, div, null);
     			current = true;
     		},
@@ -7339,7 +7347,7 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(nav);
-    			if (detaching) detach_dev(t5);
+    			if (detaching) detach_dev(t7);
     			if (detaching) detach_dev(div);
     			destroy_component(route0);
     			destroy_component(route1);
@@ -7375,7 +7383,7 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			create_component(router.$$.fragment);
-    			attr_dev(main, "class", "main svelte-1oph8ix");
+    			attr_dev(main, "class", "main svelte-km6l9t");
     			add_location(main, file, 7, 0, 235);
     		},
     		l: function claim(nodes) {

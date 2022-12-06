@@ -1,10 +1,10 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, reverse
 from backend.api.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.views.generic import TemplateView
 
 
 class SpaView(LoginRequiredMixin, TemplateView):

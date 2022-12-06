@@ -35,12 +35,16 @@
       restaurant: order.restaurant,
       url: order.url,
       foods: order.foods.map((food) => {
-        const foodImage =
-          food.image === missingImage
-            ? food.image_url
-              ? food.image_url
-              : ""
-            : food.image;
+        let foodImage;
+        if (food.image === missingImage) {
+          if (food.image_url) {
+            foodImage = food.image_url;
+          } else {
+            foodImage = "";
+          }
+        } else {
+          foodImage = food.image;
+        }
         return {
           id: food.id,
           name: food.name,
@@ -64,7 +68,6 @@
       bind:beingEdited
       on:refreshOrders={refreshOrders}
     />
-    <h1>hi</h1>
   {:else}
     <div class="order">
       <div class="order__header">

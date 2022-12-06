@@ -1,16 +1,13 @@
 from datetime import datetime
+
 from django.contrib.auth import authenticate, login, logout
+from django.core.validators import URLValidator, ValidationError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.core.validators import URLValidator, ValidationError
 from rest_framework import authentication, permissions
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.decorators import (
-    api_view,
-    authentication_classes,
-    permission_classes,
-    renderer_classes,
-)
+from rest_framework.decorators import (api_view, authentication_classes,
+                                       permission_classes, renderer_classes)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
@@ -36,11 +33,11 @@ class OrdersList(APIView):
         else:
             orders = Order.objects.filter(user=request.user)
             resp = [o.serialize(request.user) for o in orders]
-        print("Returning orders: ")
-        for o in resp:
-            for k, v in o.items():
-                print(f"{k}: {v}")
-            print("----")
+        # print("Returning orders: ")
+        # for o in resp:
+        #     for k, v in o.items():
+        #         print(f"{k}: {v}")
+        #     print("----")
 
         return Response(resp)
 

@@ -11,6 +11,7 @@
       <a class="nav-link" href="/">Orders</a>
       <a class="nav-link" href="/links-list">Linked Accounts</a>
       <a class="nav-link" href="/search-users">Search Users</a>
+      <a class="nav-link" href="/logout">Log Out</a>
     </nav>
     <div class="content">
       <Route path="/" component={Home} />
@@ -106,7 +107,7 @@
       z-index: 1;
       .nav-link {
         color: $nav-link-color;
-        margin: 0 2rem;
+        margin: 0 1.5rem;
       }
       .nav-link:hover {
         color: $nav-link-hover-color;
