@@ -1,32 +1,32 @@
-<html>
-
-<head></head>
-
-<body>
+{% extends "registration/layout.html" %}
+{% block body %}
+<div class="authentication">
   <h2>Register</h2>
 
   {% if message %}
-  <div>{{ message }}</div>
+  <span class="authentication-error">{{ message }}</span>
   {% endif %}
 
   <form action="{% url 'register' %}" method="post">
     {% csrf_token %}
-    <div class="form-group">
-      <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+    <div>
+      <input class="input-field" autofocus type="text" name="username" placeholder="Username">
     </div>
-    <div class="form-group">
-      <input class="form-control" type="email" name="email" placeholder="Email Address">
+    <div>
+      <input class="input-field" type="email" name="email" placeholder="Email Address">
     </div>
-    <div class="form-group">
-      <input class="form-control" type="password" name="password" placeholder="Password">
+    <div>
+      <input class="input-field" type="password" name="password" placeholder="Password">
     </div>
-    <div class="form-group">
-      <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+    <div>
+      <input class="input-field" type="password" name="confirmation" placeholder="Confirm Password">
     </div>
-    <input class="btn btn-primary" type="submit" value="Register">
+    <input class="button" type="submit" value="Register">
   </form>
 
-  Already have an account? <a href="{% url 'login' %}">Log In here.</a>
-</body>
-
-</html>
+  <div class="authentication-footer">
+    <span>Already have an account?</span>
+    <a href="{% url 'login' %}">Log In here.</a>
+  </div>
+</div>
+{% endblock %}

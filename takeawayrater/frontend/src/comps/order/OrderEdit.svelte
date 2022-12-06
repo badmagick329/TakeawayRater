@@ -258,8 +258,8 @@
     />
   </div>
 
-  <div class="food-input">
-    {#each order.foods as food, i}
+  {#each order.foods as food, i}
+    <div class="food-input">
       <div class="input-field">
         <div
           class="error-field"
@@ -328,8 +328,8 @@
           />
         {/if}
       </div>
-    {/each}
-  </div>
+    </div>
+  {/each}
 
   <div class="buttons-bar">
     <button on:click={addFood}>More Food</button>
@@ -360,6 +360,10 @@
     display: flex;
     flex-direction: column;
     margin-top: 1em;
+    border-top: 2px solid #ccc;
+  }
+  .file-input {
+    border: 0;
   }
   .buttons-bar {
     display: flex;

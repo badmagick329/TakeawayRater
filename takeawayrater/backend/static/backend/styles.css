@@ -1,0 +1,71 @@
+body {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  background-color: #774a62;
+  font-family: "Roboto", sans-serif;
+}
+body .authentication {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+body .authentication h2 {
+  color: white;
+  font-size: calc(1.325rem + 0.9vw);
+}
+body .authentication .authentication-error {
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  padding: 0.25rem 1rem;
+  color: white;
+  text-decoration: underline;
+  font-weight: bold;
+}
+body .authentication form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body .authentication form .input-field {
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  padding: 0.25rem 1rem;
+  border: none;
+  font-size: calc(0.75rem + 0.6vw);
+}
+body .authentication form .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+body .authentication form .button {
+  color: white;
+  font-family: "Roboto", sans-serif;
+  background-color: #313E61;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  padding: 0.25rem 1rem;
+  font-size: calc(0.75rem + 0.6vw);
+  cursor: pointer;
+  text-decoration: none;
+}
+body .authentication .authentication-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  color: white;
+  font-size: calc(0.75rem + 0.6vw);
+}
+body .authentication .authentication-footer a {
+  text-decoration: underline;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+}
+
+/*# sourceMappingURL=styles.css.map */

@@ -50,6 +50,12 @@ def register(request):
                 "registration/register.html",
                 {"message": "Passwords must match."},
             )
+        elif not password:
+            return render(
+                request,
+                "registration/register.html",
+                {"message": "Password cannot be empty."},
+            )
 
         # Attempt to create new user
         try:

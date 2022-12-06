@@ -3171,7 +3171,7 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			img = element("img");
-    			attr_dev(img, "class", "preview-image svelte-9ivwr1");
+    			attr_dev(img, "class", "preview-image svelte-gxbzd");
     			if (!src_url_equal(img.src, img_src_value = /*order*/ ctx[0].foods[/*i*/ ctx[24]].imageUrl)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", img_alt_value = /*order*/ ctx[0].foods[/*i*/ ctx[24]].name);
     			add_location(img, file$7, 323, 10, 8409);
@@ -3213,7 +3213,7 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			img = element("img");
-    			attr_dev(img, "class", "preview-image svelte-9ivwr1");
+    			attr_dev(img, "class", "preview-image svelte-gxbzd");
     			if (!src_url_equal(img.src, img_src_value = /*previews*/ ctx[1][/*i*/ ctx[24]])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", img_alt_value = /*order*/ ctx[0].foods[/*i*/ ctx[24]].name);
     			add_location(img, file$7, 317, 10, 8230);
@@ -3246,8 +3246,9 @@ var app = (function () {
     	return block;
     }
 
-    // (262:4) {#each order.foods as food, i}
+    // (261:2) {#each order.foods as food, i}
     function create_each_block$5(ctx) {
+    	let div7;
     	let div1;
     	let div0;
     	let span;
@@ -3274,7 +3275,6 @@ var app = (function () {
     	let t7;
     	let input4;
     	let t8;
-    	let t9;
     	let current;
     	let mounted;
     	let dispose;
@@ -3324,6 +3324,7 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			div7 = element("div");
     			div1 = element("div");
     			div0 = element("div");
     			span = element("span");
@@ -3349,9 +3350,8 @@ var app = (function () {
     			input4 = element("input");
     			t8 = space();
     			if (if_block1) if_block1.c();
-    			t9 = space();
     			add_location(span, file$7, 267, 10, 6810);
-    			attr_dev(div0, "class", "error-field svelte-9ivwr1");
+    			attr_dev(div0, "class", "error-field svelte-gxbzd");
 
     			attr_dev(div0, "style", div0_style_value = /*errors*/ ctx[2].foods[/*i*/ ctx[24]]
     			? "display:block;"
@@ -3362,68 +3362,70 @@ var app = (function () {
     			attr_dev(input0, "name", `food-${/*i*/ ctx[24]}`);
     			attr_dev(input0, "placeholder", "Food Name");
     			add_location(input0, file$7, 269, 8, 6866);
-    			attr_dev(div1, "class", "input-field svelte-9ivwr1");
+    			attr_dev(div1, "class", "input-field svelte-gxbzd");
     			add_location(div1, file$7, 262, 6, 6645);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "name", `tags-${/*i*/ ctx[24]}`);
     			attr_dev(input1, "placeholder", "Tags (Optional)");
     			add_location(input1, file$7, 278, 8, 7103);
-    			attr_dev(div2, "class", "input-field svelte-9ivwr1");
+    			attr_dev(div2, "class", "input-field svelte-gxbzd");
     			add_location(div2, file$7, 277, 6, 7068);
-    			attr_dev(div3, "class", "input-display svelte-9ivwr1");
+    			attr_dev(div3, "class", "input-display svelte-gxbzd");
     			add_location(div3, file$7, 285, 6, 7284);
     			attr_dev(input2, "type", "text");
     			attr_dev(input2, "name", `comment-${/*i*/ ctx[24]}`);
     			attr_dev(input2, "placeholder", "Comment (Optional)");
     			add_location(input2, file$7, 291, 8, 7476);
-    			attr_dev(div4, "class", "input-field svelte-9ivwr1");
+    			attr_dev(div4, "class", "input-field svelte-gxbzd");
     			add_location(div4, file$7, 290, 6, 7441);
-    			attr_dev(div5, "class", "input-field svelte-9ivwr1");
+    			attr_dev(div5, "class", "input-field svelte-gxbzd");
     			add_location(div5, file$7, 298, 6, 7663);
-    			attr_dev(input3, "class", "file-input svelte-9ivwr1");
+    			attr_dev(input3, "class", "file-input svelte-gxbzd");
     			attr_dev(input3, "type", "file");
     			attr_dev(input3, "name", `image-${/*i*/ ctx[24]}`);
     			attr_dev(input3, "accept", "image/*");
     			add_location(input3, file$7, 302, 8, 7801);
-    			attr_dev(input4, "class", "link-input svelte-9ivwr1");
+    			attr_dev(input4, "class", "link-input svelte-gxbzd");
     			attr_dev(input4, "type", "text");
     			attr_dev(input4, "name", `image-link-${/*i*/ ctx[24]}`);
     			attr_dev(input4, "placeholder", "(Alternative) Image Link");
     			add_location(input4, file$7, 309, 8, 7986);
-    			attr_dev(div6, "class", "input-field svelte-9ivwr1");
+    			attr_dev(div6, "class", "input-field svelte-gxbzd");
     			add_location(div6, file$7, 301, 6, 7766);
+    			attr_dev(div7, "class", "food-input svelte-gxbzd");
+    			add_location(div7, file$7, 261, 4, 6613);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div1, anchor);
+    			insert_dev(target, div7, anchor);
+    			append_dev(div7, div1);
     			append_dev(div1, div0);
     			append_dev(div0, span);
     			append_dev(span, t0);
     			append_dev(div1, t1);
     			append_dev(div1, input0);
     			set_input_value(input0, /*order*/ ctx[0].foods[/*i*/ ctx[24]].name);
-    			insert_dev(target, t2, anchor);
-    			insert_dev(target, div2, anchor);
+    			append_dev(div7, t2);
+    			append_dev(div7, div2);
     			append_dev(div2, input1);
     			set_input_value(input1, /*order*/ ctx[0].foods[/*i*/ ctx[24]].tagsStr);
-    			insert_dev(target, t3, anchor);
-    			insert_dev(target, div3, anchor);
+    			append_dev(div7, t3);
+    			append_dev(div7, div3);
     			if (if_block0) if_block0.m(div3, null);
-    			insert_dev(target, t4, anchor);
-    			insert_dev(target, div4, anchor);
+    			append_dev(div7, t4);
+    			append_dev(div7, div4);
     			append_dev(div4, input2);
     			set_input_value(input2, /*order*/ ctx[0].foods[/*i*/ ctx[24]].comment);
-    			insert_dev(target, t5, anchor);
-    			insert_dev(target, div5, anchor);
+    			append_dev(div7, t5);
+    			append_dev(div7, div5);
     			mount_component(rating, div5, null);
-    			insert_dev(target, t6, anchor);
-    			insert_dev(target, div6, anchor);
+    			append_dev(div7, t6);
+    			append_dev(div7, div6);
     			append_dev(div6, input3);
     			append_dev(div6, t7);
     			append_dev(div6, input4);
     			set_input_value(input4, /*order*/ ctx[0].foods[/*i*/ ctx[24]].imageUrl);
     			append_dev(div6, t8);
     			if (if_block1) if_block1.m(div6, null);
-    			append_dev(div6, t9);
     			current = true;
 
     			if (!mounted) {
@@ -3506,7 +3508,7 @@ var app = (function () {
 
     				if (if_block1) {
     					if_block1.c();
-    					if_block1.m(div6, t9);
+    					if_block1.m(div6, null);
     				}
     			}
     		},
@@ -3522,19 +3524,9 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div1);
-    			if (detaching) detach_dev(t2);
-    			if (detaching) detach_dev(div2);
-    			if (detaching) detach_dev(t3);
-    			if (detaching) detach_dev(div3);
+    			if (detaching) detach_dev(div7);
     			if (if_block0) if_block0.d();
-    			if (detaching) detach_dev(t4);
-    			if (detaching) detach_dev(div4);
-    			if (detaching) detach_dev(t5);
-    			if (detaching) detach_dev(div5);
     			destroy_component(rating);
-    			if (detaching) detach_dev(t6);
-    			if (detaching) detach_dev(div6);
 
     			if (if_block1) {
     				if_block1.d();
@@ -3549,7 +3541,7 @@ var app = (function () {
     		block,
     		id: create_each_block$5.name,
     		type: "each",
-    		source: "(262:4) {#each order.foods as food, i}",
+    		source: "(261:2) {#each order.foods as food, i}",
     		ctx
     	});
 
@@ -3596,7 +3588,7 @@ var app = (function () {
     }
 
     function create_fragment$7(ctx) {
-    	let div6;
+    	let div5;
     	let div1;
     	let div0;
     	let span0;
@@ -3615,9 +3607,8 @@ var app = (function () {
     	let t4;
     	let input1;
     	let t5;
-    	let div4;
     	let t6;
-    	let div5;
+    	let div4;
     	let button0;
     	let t8;
     	let t9;
@@ -3641,7 +3632,7 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			div6 = element("div");
+    			div5 = element("div");
     			div1 = element("div");
     			div0 = element("div");
     			span0 = element("span");
@@ -3656,14 +3647,13 @@ var app = (function () {
     			t4 = space();
     			input1 = element("input");
     			t5 = space();
-    			div4 = element("div");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			t6 = space();
-    			div5 = element("div");
+    			div4 = element("div");
     			button0 = element("button");
     			button0.textContent = "More Food";
     			t8 = space();
@@ -3672,7 +3662,7 @@ var app = (function () {
     			button1 = element("button");
     			button1.textContent = "Submit";
     			add_location(span0, file$7, 233, 6, 6000);
-    			attr_dev(div0, "class", "error-field svelte-9ivwr1");
+    			attr_dev(div0, "class", "error-field svelte-gxbzd");
 
     			attr_dev(div0, "style", div0_style_value = /*errors*/ ctx[2].restaurant
     			? "display:block;"
@@ -3683,10 +3673,10 @@ var app = (function () {
     			attr_dev(input0, "name", "restaurant");
     			attr_dev(input0, "placeholder", "Restaurant Name");
     			add_location(input0, file$7, 235, 4, 6050);
-    			attr_dev(div1, "class", "input-field svelte-9ivwr1");
+    			attr_dev(div1, "class", "input-field svelte-gxbzd");
     			add_location(div1, file$7, 228, 2, 5853);
     			add_location(span1, file$7, 249, 6, 6364);
-    			attr_dev(div2, "class", "error-field svelte-9ivwr1");
+    			attr_dev(div2, "class", "error-field svelte-gxbzd");
 
     			attr_dev(div2, "style", div2_style_value = /*errors*/ ctx[2].url
     			? "display:block;"
@@ -3697,51 +3687,48 @@ var app = (function () {
     			attr_dev(input1, "name", "url");
     			attr_dev(input1, "placeholder", "Restaurant URL (Optional)");
     			add_location(input1, file$7, 251, 4, 6407);
-    			attr_dev(div3, "class", "input-field svelte-9ivwr1");
+    			attr_dev(div3, "class", "input-field svelte-gxbzd");
     			add_location(div3, file$7, 244, 2, 6224);
-    			attr_dev(div4, "class", "food-input svelte-9ivwr1");
-    			add_location(div4, file$7, 260, 2, 6577);
     			add_location(button0, file$7, 334, 4, 8633);
     			add_location(button1, file$7, 338, 4, 8785);
-    			attr_dev(div5, "class", "buttons-bar svelte-9ivwr1");
-    			add_location(div5, file$7, 333, 2, 8602);
-    			attr_dev(div6, "class", "order");
-    			add_location(div6, file$7, 227, 0, 5830);
+    			attr_dev(div4, "class", "buttons-bar svelte-gxbzd");
+    			add_location(div4, file$7, 333, 2, 8602);
+    			attr_dev(div5, "class", "order");
+    			add_location(div5, file$7, 227, 0, 5830);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div6, anchor);
-    			append_dev(div6, div1);
+    			insert_dev(target, div5, anchor);
+    			append_dev(div5, div1);
     			append_dev(div1, div0);
     			append_dev(div0, span0);
     			append_dev(span0, t0);
     			append_dev(div1, t1);
     			append_dev(div1, input0);
     			set_input_value(input0, /*order*/ ctx[0].restaurant);
-    			append_dev(div6, t2);
-    			append_dev(div6, div3);
+    			append_dev(div5, t2);
+    			append_dev(div5, div3);
     			append_dev(div3, div2);
     			append_dev(div2, span1);
     			append_dev(span1, t3);
     			append_dev(div3, t4);
     			append_dev(div3, input1);
     			set_input_value(input1, /*order*/ ctx[0].url);
-    			append_dev(div6, t5);
-    			append_dev(div6, div4);
+    			append_dev(div5, t5);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div4, null);
+    				each_blocks[i].m(div5, null);
     			}
 
-    			append_dev(div6, t6);
-    			append_dev(div6, div5);
-    			append_dev(div5, button0);
-    			append_dev(div5, t8);
-    			if (if_block) if_block.m(div5, null);
-    			append_dev(div5, t9);
-    			append_dev(div5, button1);
+    			append_dev(div5, t6);
+    			append_dev(div5, div4);
+    			append_dev(div4, button0);
+    			append_dev(div4, t8);
+    			if (if_block) if_block.m(div4, null);
+    			append_dev(div4, t9);
+    			append_dev(div4, button1);
     			current = true;
 
     			if (!mounted) {
@@ -3797,7 +3784,7 @@ var app = (function () {
     						each_blocks[i] = create_each_block$5(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(div4, null);
+    						each_blocks[i].m(div5, t6);
     					}
     				}
 
@@ -3816,7 +3803,7 @@ var app = (function () {
     				} else {
     					if_block = create_if_block$4(ctx);
     					if_block.c();
-    					if_block.m(div5, t9);
+    					if_block.m(div4, t9);
     				}
     			} else if (if_block) {
     				if_block.d(1);
@@ -3842,7 +3829,7 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div6);
+    			if (detaching) detach_dev(div5);
     			destroy_each(each_blocks, detaching);
     			if (if_block) if_block.d();
     			mounted = false;
@@ -4257,6 +4244,7 @@ var app = (function () {
     function get_each_context$4(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[9] = list[i];
+    	child_ctx[11] = i;
     	return child_ctx;
     }
 
@@ -4846,7 +4834,7 @@ var app = (function () {
     	return block;
     }
 
-    // (102:8) {#each order.foods as food}
+    // (102:8) {#each order.foods as food, i}
     function create_each_block$4(ctx) {
     	let food;
     	let current;
@@ -4887,7 +4875,7 @@ var app = (function () {
     		block,
     		id: create_each_block$4.name,
     		type: "each",
-    		source: "(102:8) {#each order.foods as food}",
+    		source: "(102:8) {#each order.foods as food, i}",
     		ctx
     	});
 

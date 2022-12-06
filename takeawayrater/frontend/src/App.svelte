@@ -32,6 +32,7 @@
   $nav-bg-color: black;
   $nav-link-color: #979797;
   $nav-link-hover-color: white;
+  $font-stack: "Roboto", sans-serif;
 
   :global(.main) {
     background-color: $bg-color;

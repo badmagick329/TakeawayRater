@@ -99,7 +99,7 @@
         <Tags tags={order.tags} />
       </div>
       <div class="order__body">
-        {#each order.foods as food}
+        {#each order.foods as food, i}
           <Food {food} />
         {/each}
       </div>

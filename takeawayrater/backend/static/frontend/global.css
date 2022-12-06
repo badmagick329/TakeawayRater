@@ -48,6 +48,8 @@ button {
 	background-color: #313E61;
 	outline: none;
 	border-radius: 4px;
+  border: none;
+  font-family: 'Roboto', sans-serif;
 }
 
 button:disabled {

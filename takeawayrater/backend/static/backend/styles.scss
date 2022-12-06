@@ -1,0 +1,70 @@
+body {
+  $font-stack: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  background-color: #774a62;
+  font-family: $font-stack;
+  .authentication {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    h2 {
+      color: white;
+      font-size: calc(1.325rem + .9vw);
+    }
+    .authentication-error {
+      margin-bottom: 1rem;
+      border-radius: 5px;
+      padding: 0.25rem 1rem;
+      color : white;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .input-field {
+        margin-bottom: 1rem;
+        border-radius: 5px;
+        padding: 0.25rem 1rem;
+        border: none;
+        font-size: calc(0.75rem + .6vw);
+      }
+      .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+      }
+      .button {
+        color: white;
+        font-family: $font-stack;
+        background-color: #313E61;
+        outline: none;
+        border-radius: 4px;
+        border: none;
+        padding: 0.25rem 1rem;
+        font-size: calc(0.75rem + .6vw);
+        cursor: pointer;
+        text-decoration: none;
+      }
+    }
+    .authentication-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 1rem;
+      color: white;
+      font-size: calc(0.75rem + .6vw);
+      a {
+        text-decoration: underline;
+        font-weight: bold;
+        font-family: $font-stack;
+      }
+    }
+  }
+}
