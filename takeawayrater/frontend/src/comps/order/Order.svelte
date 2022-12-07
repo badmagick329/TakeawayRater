@@ -99,7 +99,7 @@
         <Tags tags={order.tags} />
       </div>
       <div class="order__body">
-        {#each order.foods as food, i}
+        {#each order.foods as food}
           <Food {food} />
         {/each}
       </div>
@@ -108,6 +108,9 @@
 {/if}
 
 <style lang="scss">
+  .order {
+    border: none;
+  }
   .order > div {
     padding: 5px 0.4em;
   }

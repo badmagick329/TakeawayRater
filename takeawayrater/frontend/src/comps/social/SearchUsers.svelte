@@ -83,8 +83,6 @@
         border-radius: 5px;
       }
       button {
-        border: 1px solid #ccc;
-        border-radius: 5px;
         margin-left: 10px;
       }
     }
@@ -103,10 +101,6 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        button {
-          border: 1px solid #ccc;
-          border-radius: 5px;
-        }
       }
     }
   }

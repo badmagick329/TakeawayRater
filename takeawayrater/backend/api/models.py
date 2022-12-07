@@ -3,19 +3,12 @@ from typing import List
 
 from django.contrib.auth.models import AbstractUser
 from django.core.files.storage import default_storage
-from django.core.validators import (
-    MaxValueValidator,
-    MinValueValidator,
-    ValidationError,
-)
+from django.core.validators import (MaxValueValidator, MinValueValidator,
+                                    ValidationError)
 from django.db import models
 from django.db.models import Avg
-from django.db.models.signals import (
-    m2m_changed,
-    post_save,
-    pre_delete,
-    pre_save,
-)
+from django.db.models.signals import (m2m_changed, post_save, pre_delete,
+                                      pre_save)
 from django.dispatch import receiver
 
 from .fields import CaseInsensitiveCharField
@@ -208,7 +201,7 @@ class Rating(models.Model):
     rating = models.IntegerField(
         validators=[MaxValueValidator(5), MinValueValidator(1)]
     )
-    comment = models.TextField(blank=True, null=True)
+    comment = models.CharField(blank=True, null=True, max_length=300)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:

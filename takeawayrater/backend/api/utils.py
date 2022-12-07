@@ -33,8 +33,8 @@ def validate(data, user):
     :param prefill: bool, whether to return prefill data
     """
 
-    # Validate restaurant
     being_edited = data.get("id", None)
+    # Most of the validation is done in clean_order_data
     data = clean_order_data(data, clean_only=True)["data"]
     restaurant_name = data["restaurant"]
     saved_r = Restaurant.objects.filter(name=restaurant_name).first()
@@ -114,6 +114,7 @@ def clean_order_data(data, clean_only=False) -> dict:
     }
 
     if not clean_only:
+        errors = max_length_checks(clean_data, errors)
         # Required Field Validation
         if clean_data["restaurant"] == "":
             errors["restaurant"] = "Restaurant name is required"
@@ -122,6 +123,11 @@ def clean_order_data(data, clean_only=False) -> dict:
         for i, food in enumerate(foods):
             if food["name"] == "":
                 errors["foods"][i] = "Food name is required"
+            elif len(food["name"]) > max_food_name:
+                errors["foods"][i] = (
+                    "Food name must be less than " f"{max_food_name} characters"
+                )
+
             elif food["rating"] == 0:
                 errors["foods"][i] = "Food rating is required"
         if all([e is None for e in errors["foods"]]):
@@ -176,3 +182,31 @@ def list_from_form_data(data):
         foods.append(food)
         i += 1
     return foods
+
+
+def max_length_checks(data: dict, errors: dict):
+    """
+    Check that the length of the fields in data is less than the max length
+    """
+    max_food_name = Food._meta.get_field("name").max_length
+    max_comment = Rating._meta.get_field("comment").max_length
+    max_tag = Tag._meta.get_field("name").max_length
+    max_restaurant_name = int(Restaurant._meta.get_field("name").max_length)
+    if len(data["restaurant"]) > max_restaurant_name:
+        errors["restaurant"] = (
+            f"Restaurant name must be less than " f"{max_restaurant_name} characters"
+        )
+    for i, food in enumerate(data["foods"]):
+        if len(food["name"]) > max_food_name:
+            errors["foods"][i] = (
+                "Food name must be less than " f"{max_food_name} characters"
+            )
+        elif len(food["comment"]) > max_comment:
+            errors["foods"][i] = (
+                "Comment must be less than " f"{max_comment} characters"
+            )
+        for tag in food["tags"]:
+            if len(tag) > max_tag:
+                errors["foods"][i] = f"Tag must be less than {max_tag} characters"
+
+    return errors

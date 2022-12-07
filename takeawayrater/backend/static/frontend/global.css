@@ -47,9 +47,11 @@ button {
 	color: white;
 	background-color: #313E61;
 	outline: none;
-	border-radius: 4px;
   border: none;
   font-family: 'Roboto', sans-serif;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 button:disabled {
@@ -57,11 +59,15 @@ button:disabled {
 }
 
 button:not(:disabled):active {
-	background-color: #ddd;
+	background-color: #eee;
 }
 
 button:focus {
-	border-color: #666;
+  border: 1px solid white;
+}
+
+button:selected {
+  border: 1px solid white;
 }
 
 
