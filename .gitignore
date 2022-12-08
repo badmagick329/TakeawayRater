@@ -1,11 +1,6 @@
-# IDE
-.vscode/
-.idea/
-
 # Svelte
 node_modules/
 /public/build/
-.DS_Store
 __tests__/
 
 # Python
@@ -19,8 +14,10 @@ db_data/
 
 # Config
 .env
-docker-compose*
-Dockerfile
-nginx/
-.dockerignore
+
+# nginx logs
+access.log
+error.log
+
+# Other
 notes.md

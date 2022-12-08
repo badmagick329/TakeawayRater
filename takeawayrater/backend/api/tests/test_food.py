@@ -12,18 +12,14 @@ class FoodModelTest(TestCase):
     def test_creation(self):
         """Basic creation test"""
         count = Food.objects.count()
-        food = Food.objects.create(
-            name="Cheese Burger", restaurant=self.restaurant
-        )
+        food = Food.objects.create(name="Cheese Burger", restaurant=self.restaurant)
         self.assertEqual(food.name, "cheese burger")
         self.assertEqual(food.restaurant, self.restaurant)
         self.assertEqual(Food.objects.count(), count + 1)
 
     def test_duplicate_food_add_fails(self):
         """Test that a food can only be added once to a restaurant"""
-        food = Food.objects.create(
-            name="cheese burger", restaurant=self.restaurant
-        )
+        food = Food.objects.create(name="cheese burger", restaurant=self.restaurant)
         count = Food.objects.count()
         with self.assertRaises(ValidationError):
             food2 = Food.objects.create(

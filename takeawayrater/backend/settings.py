@@ -10,12 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from pathlib import Path
 import os
-from dotenv import dotenv_values
-from django.urls import reverse_lazy
+from pathlib import Path
 
-config = dotenv_values("../.env")
+from django.urls import reverse_lazy
+from dotenv import dotenv_values
+
+env_file = Path(__file__).resolve().parent.parent.parent / ".env"
+config = dotenv_values(env_file)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,6 +31,7 @@ SECRET_KEY = config["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(config["DEBUG"])
+print("DEBUG:", DEBUG)
 ALLOWED_HOSTS = [] if DEBUG else ["*"]
 
 
@@ -129,13 +132,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "backend", "staticfiles")
+STATIC_ROOT = BASE_DIR / "backend" / "staticfiles"
 STATIC_URL = "/static/"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "backend", "static"),)
+STATICFILES_DIRS = ((BASE_DIR / "backend" / "static"),)
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "backend", "media")
+MEDIA_ROOT = BASE_DIR / "backend" / "media"
 MEDIA_URL = "/media/"
 
 # Default primary key field type

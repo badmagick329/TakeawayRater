@@ -1,0 +1,7 @@
+# Django
+venv/
+tests/
+
+# Svelte
+node_modules/
+__tests__/

@@ -1,0 +1,50 @@
+version: "3"
+services:
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py collectstatic --no-input &&  
+                    gunicorn backend.wsgi:application --bind 0.0.0.0:8082 --workers 4 --threads 4"
+    volumes:
+      - ./takeawayrater/backend/staticfiles:/app/backend/staticfiles
+      - ./takeawayrater/backend/media:/app/backend/media
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  db:
+    image: postgres:13
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    env_file:
+      - .env
+    restart: unless-stopped
+  
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - 9003:9003
+    volumes:
+      - ./takeawayrater/backend/staticfiles:/app/backend/staticfiles
+      - ./nginx/logs:/var/logs
+      - ./takeawayrater/backend/media:/app/backend/media
+    depends_on: 
+      - django
+    restart: unless-stopped

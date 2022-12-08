@@ -70,9 +70,7 @@ class OrderModelTest(TestCase):
         self.assertEqual(order.restaurant.url, "https://newrestaurant.com")
         self.assertEqual(order.foods.count(), 1)
         self.assertEqual(order.foods.first().name, "chicken sandwich")
-        user_rating = Rating.objects.filter(
-            user=self.user, food=order.foods.first()
-        )
+        user_rating = Rating.objects.filter(user=self.user, food=order.foods.first())
         self.assertEqual(user_rating.count(), 1)
         user_rating = user_rating.first()
         self.assertEqual(user_rating.rating, 5)
@@ -106,9 +104,7 @@ class OrderModelTest(TestCase):
         self.assertEqual(order.user, self.user)
         self.assertEqual(order.foods.count(), 1)
         self.assertEqual(order.foods.first().name, "chicken sandwich")
-        user_rating = Rating.objects.filter(
-            user=self.user, food=order.foods.first()
-        )
+        user_rating = Rating.objects.filter(user=self.user, food=order.foods.first())
         self.assertEqual(user_rating.count(), 1)
         user_rating = user_rating.first()
         self.assertEqual(user_rating.rating, 3)
