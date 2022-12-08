@@ -123,10 +123,6 @@ def clean_order_data(data, clean_only=False) -> dict:
         for i, food in enumerate(foods):
             if food["name"] == "":
                 errors["foods"][i] = "Food name is required"
-            elif len(food["name"]) > max_food_name:
-                errors["foods"][i] = (
-                    "Food name must be less than " f"{max_food_name} characters"
-                )
 
             elif food["rating"] == 0:
                 errors["foods"][i] = "Food rating is required"
