@@ -9,5 +9,4 @@ ENV PYTHONDONTWRITEBYTECODE 1
 WORKDIR /app
 COPY --from=builder /app/wheels /wheels
 RUN pip install --no-cache /wheels/*
-COPY ./takeawayrater /app/
 COPY .env /

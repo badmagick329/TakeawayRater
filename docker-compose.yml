@@ -11,6 +11,7 @@ services:
     volumes:
       - ./takeawayrater/backend/staticfiles:/app/backend/staticfiles
       - ./takeawayrater/backend/media:/app/backend/media
+      - ./takeawayrater:/app
     depends_on:
       db:
         condition: service_healthy

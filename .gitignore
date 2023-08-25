@@ -9,6 +9,7 @@ vnv/
 __pycache__/
 media/
 staticfiles/
+static/frontend/*
 
 # db
 db_data/
