@@ -5,6 +5,7 @@ __tests__/
 
 # Python
 venv/
+vnv/
 __pycache__/
 media/
 staticfiles/
